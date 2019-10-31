@@ -56,14 +56,25 @@ public class LogAnalyzer
              String address = le.getIpAddress();
              Date date = le.getAccessTime();
              String dateStr = date.toString();
-             if ((!uniqueIPsOnDay.contains(address)) && (dateStr.contains(someday))){
+             if ( ( !uniqueIPsOnDay.contains(address) ) && ( dateStr.contains(someday) ) ){
                  uniqueIPsOnDay.add(address);
              }
          }
          return uniqueIPsOnDay;
      }
     
-     
+     public int countUniqueIPsInRange(int low, int high){
+         // SUMMARY: returns number of unique IPs in records that have status code between low to high (inclusive)
+         ArrayList<String> uniqueIPsInRange = new ArrayList<String>();
+         for (LogEntry le : records){
+             String address = le.getIpAddress();
+             int statusCode = le.getStatusCode();
+             if ( (!uniqueIPsInRange.contains(address) ) && ( statusCode >= low ) && ( statusCode <= high ) ){
+                 uniqueIPsInRange.add(address);
+             } 
+         }
+         return uniqueIPsInRange.size();
+     }
         
      public void printAll() {
          for (LogEntry le : records) {

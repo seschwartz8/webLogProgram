@@ -36,5 +36,9 @@ public class Tester
         LogAnalyzer analyzer4 = new LogAnalyzer();
         analyzer4.readFile("weblog-short_log");
         System.out.println(analyzer4.uniqueIPVisitsOnDay("Sep 30").size());
+        // Print number of unique IP addresses with statu in range of low to high (inclusive)
+        LogAnalyzer analyzer5 = new LogAnalyzer();
+        analyzer5.readFile("short-test_log");
+        System.out.println(analyzer5.countUniqueIPsInRange(200,299));
     }
 }
