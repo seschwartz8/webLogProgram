@@ -116,7 +116,7 @@ public class LogAnalyzer
          for (LogEntry le : records){
              String fullDate = le.getAccessTime().toString();
              // Just take the Day/Month/Date (e.g. "Wed Sep 04") part of the date
-             String date = fullDate.substring(0, 11);
+             String date = fullDate.substring(0, 10);
              String address = le.getIpAddress();
              if (!iPsEachDay.containsKey(date)){
                  // If the map doesn't contain a date yet, add it and start a list of addresses
@@ -125,13 +125,42 @@ public class LogAnalyzer
                  iPsEachDay.put(date, firstAddresses);
              } else {
                  // If the map does contain the date, add the current address to the list of addresses at that date
-                 System.out.println("map contained " + date);
                  ArrayList<String> currentAddresses = iPsEachDay.get(date);
                  currentAddresses.add(address);
                  iPsEachDay.replace(date, currentAddresses);
              }
          }
          return iPsEachDay;
+     }
+     
+     public String dayWithMostIPVisits (HashMap<String,ArrayList<String>> iPsEachDay){
+         // SUMMARY: returns day with most visits to website (if tie, returns any such day)
+         int maxVisits = 0;
+         String maxDate = "";
+         for (String date : iPsEachDay.keySet()){
+             if (iPsEachDay.get(date).size() > maxVisits){
+                 maxVisits = iPsEachDay.get(date).size();
+                 maxDate = date;
+             }
+         }
+         return maxDate;
+     }
+     
+     public ArrayList<String> iPsWithMostVisitsOnDay (HashMap<String,ArrayList<String>> iPsEachDay, String date){
+         // SUMMARY: returns list of IP addresses that had most accesses on given day
+         HashMap<String,Integer> visitsPerIP = new HashMap<String,Integer>();
+         // Find given date, get its list of visits (targetVisits) and count visits per address in visitsPerIPOnDay
+         ArrayList<String> targetVisits = iPsEachDay.get(date);
+         for (String address : targetVisits){
+            if (!visitsPerIP.containsKey(address)){
+                visitsPerIP.put(address, 1);
+            } else {
+                visitsPerIP.replace(address, visitsPerIP.get(address) + 1);
+            }
+         }
+         // Analyze data in visitsPerIPOnDay to get the IPs with the most visits on the given day
+         ArrayList<String> iPsWithMostVisitsOnDay = iPsMostVisits(visitsPerIP);
+         return iPsWithMostVisitsOnDay;
      }
         
      public void printAll() {

@@ -60,5 +60,15 @@ public class Tester
         analyzer9.readFile("weblog3-short_log");
         HashMap<String,ArrayList<String>> iPsEachDay = analyzer9.iPsForDays();
         System.out.println(iPsEachDay);
+        // Prints date with max number of visits (if tie, any such date)
+        LogAnalyzer analyzer10 = new LogAnalyzer();
+        analyzer10.readFile("weblog3-short_log");
+        HashMap<String,ArrayList<String>> iPsEachDay2 = analyzer10.iPsForDays();
+        System.out.println(analyzer10.dayWithMostIPVisits(iPsEachDay2));
+        // Prints list of addresses with most visits on given day
+        LogAnalyzer analyzer11 = new LogAnalyzer();
+        analyzer11.readFile("weblog3-short_log");
+        HashMap<String,ArrayList<String>> iPsEachDay3 = analyzer11.iPsForDays();
+        System.out.println(analyzer11.iPsWithMostVisitsOnDay(iPsEachDay3, "Wed Sep 30"));
     }
 }
